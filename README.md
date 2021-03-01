@@ -38,7 +38,6 @@ dotnet watch run
 * Siteweb: [Portfolio](https://dawbee.fr)
 * Twitter: [@Edrow\_\_](https://twitter.com/Edrow\_\_)
 * Github: [@Edrow-6](https://github.com/Edrow-6)
-* LinkedIn: [@Cédric Dnst](https://linkedin.com/in/Cédric Denissot)
 
 ## Montrez votre soutien
 
@@ -50,4 +49,4 @@ Copyright © 2021 [Edrow](https://github.com/Edrow-6).<br />
 Ce projet est sous licence [MIT](none).
 
 ***
-_Projet collaboratif en BTS, fait avec ❤️ par **Edrow**_
+_Projet C# • BTS, fait avec ❤️ par **Edrow**_
