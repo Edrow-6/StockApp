@@ -7,11 +7,12 @@ namespace StockApp
         public static int MainMenu(bool menuLoop, params string[] options) 
         {
             // Variables paramètrables
+            const string version = "1.0";
             const int startX = 5;
             const int startY = 7;
             const int optionsPerLine = 1;
             const int spacingPerLine = 0;
-
+            
             int currentSelection = 0;
 
             // Stockage de la clé
@@ -21,6 +22,7 @@ namespace StockApp
             while (menuLoop) {
 
                 do {
+                    Console.Title = $"Stock App | Version {version}";
                     Console.Clear();
                     Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Stock App"));
 

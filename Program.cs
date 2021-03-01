@@ -11,7 +11,7 @@ namespace StockApp
 
         static void Main(string[] args) 
         {
-            System.Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             ConsoleMenu.MainMenu(true,
                 "Rechercher un article",
@@ -24,6 +24,8 @@ namespace StockApp
 
         public static void SearchMenu()
         {
+            Console.Title = "Rechercher | Stock App";
+
             ConsoleMenu.SearchSubMenu(
                 "Par référence",
                 "Par nom",
@@ -32,23 +34,25 @@ namespace StockApp
 
         public static void SearchByReference() 
         {
+            Console.Title = "Par référence | Rechercher";
             Console.Clear();
             Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Rechercher"));
+            Console.Write("Référence de l'article: ");
 
             int searchByNumber;
             bool input = int.TryParse(Console.ReadLine(), out searchByNumber);
 
             if (input) {
-                // Select * from Article where id_article = searchByNumber
-                // i vaut 0 Stock.Count est le nombre de ligne du stock ,  i va maximum jusqu'au nombre limite de ligne
+                // Select * from Article where articleNumber = searchByNumber
                 for (int i = 0; i < Stock.Count; i++) {
-                    // si i est egale à searchByNumber il affiche la ligne i
                     if (Stock[i].Number.Equals(searchByNumber)) {
-                        Console.WriteLine(Stock[i].ToString());
+                        var table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
+                        table.AddRow(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
+                        table.Write(Format.Alternative);
                     }
                 }
             } else {
-                Console.WriteLine("[ERREUR] Valeur introuvable ou incorrect, veuillez réessayer.");
+                Console.WriteLine("[ERREUR] La valeur peut seulement être un chiffre, veuillez réessayer.");
             }
             
             Console.ReadLine();
@@ -56,35 +60,43 @@ namespace StockApp
 
         public static void SearchByName() 
         {
+            Console.Title = "Par Nom | Rechercher";
             Console.Clear();
-            Console.WriteLine("Rechercher un article par nom.");
-            Console.WriteLine("Choisissez le nom de l'article recherché.");
+            Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Rechercher"));
+            Console.Write("Nom de l'article: ");
+            
             string nameInput = Console.ReadLine();
-            // SELECT * FROM Artcile WHERE nameInput = nameInput
-            for (int i = 0; i < Stock.Count; i++) { // if s'execute quand le nom article est egale au nameInput
+            // SELECT * FROM Article WHERE nameInput = nameInput
+            for (int i = 0; i < Stock.Count; i++) {
                 if (Stock[i].Name.Equals(nameInput)) {
-                    Console.WriteLine(Stock[i].ToString());
-
+                    var table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
+                    table.AddRow(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
+                    table.Write(Format.Alternative);
+                } else {
+                    Console.WriteLine("Erreur WIP.");
                 }
             }
-
-            Console.ReadLine();
+            
         }
 
         public static void SearchByPriceInterval() 
         {
+            Console.Title = "Par Prix | Rechercher";
             Console.Clear();
-            Console.WriteLine("Rechercher un article par intervalle de prix de vente.");
-            Console.WriteLine("Choisissez le prix de depart");
+            Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Rechercher"));
+
+            Console.Write("Montant minimum: ");
             float startPrice = float.Parse(Console.ReadLine());
-            Console.WriteLine("Choisissez le prix de fin");
+            Console.Write("Montant maximum: ");
             float endPrice = float.Parse(Console.ReadLine());
             //boucle for sur le nombre de ligne
             for (int i = 0; i < Stock.Count; i++) { // if prix minimum  entre prix max
                 if (Stock[i].Price >= (startPrice) && Stock[i].Price <= (endPrice)) {
-                    //affiche les articles dont le prix est entre startPrice et endPrice
-                    Console.WriteLine(Stock[i].ToString());
-
+                    // affiche les articles dont le prix est entre startPrice et endPrice
+                    //Console.WriteLine(Stock[i].ToString());
+                    var table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
+                    table.AddRow(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
+                    table.Write(Format.Alternative);
                 }
             }
             // SELECT * FROM Article where articlePrice BETWEEN startPrice AND endPrice
@@ -107,7 +119,7 @@ namespace StockApp
             bool numberExist = true;
             for (int i = 0; i < Stock.Count; i++) {
                 if (Stock[i].Number.Equals(number)) {
-                    Console.WriteLine("[Erreur] Ce numéro existe déjà, veuiller en saisir un nouveau.");
+                    Console.WriteLine("[ERREUR] Ce numéro existe déjà, veuiller en saisir un nouveau.");
                     numberExist = false;
                 }
             }
@@ -116,7 +128,6 @@ namespace StockApp
                 //Console.WriteLine($"[Article Ajouté] NUMÉRO: {number} - NOM: {name} - PRIX: {price} - QUANTITÉ: {quantity}");
                 var table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
                 table.AddRow(number, name, price, quantity);
-
                 table.Write(Format.Alternative);
             }
             Console.ReadLine();
@@ -126,11 +137,14 @@ namespace StockApp
         {
             Console.Clear();
             Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Supprimer"));
-
+            Console.Write("Référence de l'article à supprimer: ");
+            
             int articleToDeleteById = int.Parse(Console.ReadLine());
             for (int i = 0; i < Stock.Count; i++) {
                 if (Stock[i].Number.Equals(articleToDeleteById)) {
-                    Console.WriteLine(Stock[i].ToString());
+                    var table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
+                    table.AddRow(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
+                    table.Write(Format.Alternative);
                     //suprimme la ligne i de la list
                     Stock.RemoveAt(i);
 
@@ -146,7 +160,7 @@ namespace StockApp
         {
             Console.Clear();
             Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Modifier"));
-            Console.WriteLine("Choisissez l'id de l'article à modifier.");
+            Console.Write("Numéro de l'article à modifier: ");
             int editArticleById = int.Parse(Console.ReadLine());
             for (int i = 0; i < Stock.Count; i++) {
                 // si i est egale à editArticleById il affiche la ligne i
@@ -192,8 +206,8 @@ namespace StockApp
             for (int i = 0; i < Stock.Count; i++) {
                 table.AddRow(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
             }
-
             table.Write(Format.Alternative);
+            
             Console.WriteLine();
             Console.ReadLine();
         }
