@@ -296,6 +296,17 @@ node_modules/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 
+### VisualStudioCode ###
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+*.code-workspace
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
 # Paket dependency manager
 .paket/paket.exe
 paket-files/
