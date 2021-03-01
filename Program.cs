@@ -7,69 +7,87 @@ namespace StockApp
 {
     class Program 
     {
-        public static List < Article > Stock = new List < Article > ();
+        public static List<Article> Stock = new List<Article> ();
 
         static void Main(string[] args) 
         {
             System.Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            ConsoleMenu.MultipleChoice(true,
-                "Rechercher un article par référence",
+            ConsoleMenu.MainMenu(true,
+                "Rechercher un article",
                 "Ajouter un article au stock en vérifiant l’unicité de la référence",
                 "Supprimer un article par référence",
                 "Modifier un article par référence",
-                "Rechercher un article par nom",
-                "Rechercher un article par intervalle de prix de vente",
                 "Afficher tous les articles",
                 "Quitter la Console");
-
-            /*bool ShowConsoleMenu = true;
-            while (ShowConsoleMenu)
-            {
-                ShowConsoleMenu = ConsoleMenu.MultipleChoice(true, 
-            "Rechercher un article par référence", 
-            "Ajouter un article au stock en vérifiant l’unicité de la référence", 
-            "Supprimer un article par référence", 
-            "Modifier un article par référence", 
-            "Rechercher un article par nom", 
-            "Rechercher un article par intervalle de prix de vente", 
-            "Afficher tous les articles");
-            }
-            // A REFACTORISER AVEC CANCANCEL
-            /*bool ShowMainMenu = true;
-            while (ShowMainMenu)
-            {
-                ShowMainMenu = InitMenu();
-            }*/
-
         }
 
-        // A REFACTORISER AVEC CANCANCEL
-        /*static bool InitConsoleMenu()
+        public static void SearchMenu()
         {
-            ConsoleMenu.MultipleChoice(true, 
-            "Rechercher un article par référence", 
-            "Ajouter un article au stock en vérifiant l’unicité de la référence", 
-            "Supprimer un article par référence", 
-            "Modifier un article par référence", 
-            "Rechercher un article par nom", 
-            "Rechercher un article par intervalle de prix de vente", 
-            "Afficher tous les articles");
-        }*/
+            ConsoleMenu.SearchSubMenu(
+                "Par référence",
+                "Par nom",
+                "Par intervalle de prix de vente");
+        }
 
-        public static void Search() 
+        public static void SearchByReference() 
         {
             Console.Clear();
             Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Rechercher"));
-            int searchByNumber = int.Parse(Console.ReadLine());
-            // Select * from Article where id_article = id_search
-            // i vaut 0 Stock.Count est le nombre de ligne du stock ,  i va maximum jusqu'au nombre limite de ligne
-            for (int i = 0; i < Stock.Count; i++) {
-                // si i est egale à id_search il affiche la ligne i
-                if (Stock[i].Number.Equals(searchByNumber)) {
+
+            int searchByNumber;
+            bool input = int.TryParse(Console.ReadLine(), out searchByNumber);
+
+            if (input) {
+                // Select * from Article where id_article = searchByNumber
+                // i vaut 0 Stock.Count est le nombre de ligne du stock ,  i va maximum jusqu'au nombre limite de ligne
+                for (int i = 0; i < Stock.Count; i++) {
+                    // si i est egale à searchByNumber il affiche la ligne i
+                    if (Stock[i].Number.Equals(searchByNumber)) {
+                        Console.WriteLine(Stock[i].ToString());
+                    }
+                }
+            } else {
+                Console.WriteLine("[ERREUR] Valeur introuvable ou incorrect, veuillez réessayer.");
+            }
+            
+            Console.ReadLine();
+        }
+
+        public static void SearchByName() 
+        {
+            Console.Clear();
+            Console.WriteLine("Rechercher un article par nom.");
+            Console.WriteLine("Choisissez le nom de l'article recherché.");
+            string nameInput = Console.ReadLine();
+            // SELECT * FROM Artcile WHERE nameInput = nameInput
+            for (int i = 0; i < Stock.Count; i++) { // if s'execute quand le nom article est egale au nameInput
+                if (Stock[i].Name.Equals(nameInput)) {
                     Console.WriteLine(Stock[i].ToString());
+
                 }
             }
+
+            Console.ReadLine();
+        }
+
+        public static void SearchByPriceInterval() 
+        {
+            Console.Clear();
+            Console.WriteLine("Rechercher un article par intervalle de prix de vente.");
+            Console.WriteLine("Choisissez le prix de depart");
+            float startPrice = float.Parse(Console.ReadLine());
+            Console.WriteLine("Choisissez le prix de fin");
+            float endPrice = float.Parse(Console.ReadLine());
+            //boucle for sur le nombre de ligne
+            for (int i = 0; i < Stock.Count; i++) { // if prix minimum  entre prix max
+                if (Stock[i].Price >= (startPrice) && Stock[i].Price <= (endPrice)) {
+                    //affiche les articles dont le prix est entre startPrice et endPrice
+                    Console.WriteLine(Stock[i].ToString());
+
+                }
+            }
+            // SELECT * FROM Article where articlePrice BETWEEN startPrice AND endPrice
             Console.ReadLine();
         }
 
@@ -131,7 +149,7 @@ namespace StockApp
             Console.WriteLine("Choisissez l'id de l'article à modifier.");
             int editArticleById = int.Parse(Console.ReadLine());
             for (int i = 0; i < Stock.Count; i++) {
-                // si i est egale à id_search il affiche la ligne i
+                // si i est egale à editArticleById il affiche la ligne i
                 if (Stock[i].Number.Equals(editArticleById)) {
                     Console.WriteLine("Voulez-vous modifier cet article : (o/n)");
                     Console.WriteLine(Stock[i].ToString());
@@ -155,43 +173,6 @@ namespace StockApp
                 }
             }
             // UPDATE Article (nom_article,prix_article,quant_article)
-            Console.ReadLine();
-        }
-
-        public static void SearchByName() 
-        {
-            Console.Clear();
-            Console.WriteLine("Rechercher un article par nom.");
-            Console.WriteLine("Choisissez le nom de l'article recherché.");
-            string nameInput = Console.ReadLine();
-            // SELECT * FROM Artcile WHERE nom_article = nom_search
-            for (int i = 0; i < Stock.Count; i++) { // if s'execute quand le nom article est egale au nom_search
-                if (Stock[i].Name.Equals(nameInput)) {
-                    Console.WriteLine(Stock[i].ToString());
-
-                }
-            }
-
-            Console.ReadLine();
-        }
-
-        public static void SearchBySellInterval() 
-        {
-            Console.Clear();
-            Console.WriteLine("Rechercher un article par intervalle de prix de vente.");
-            Console.WriteLine("Choisissez le prix de depart");
-            float startPrice = float.Parse(Console.ReadLine());
-            Console.WriteLine("Choisissez le prix de fin");
-            float endPrice = float.Parse(Console.ReadLine());
-            //boucle for sur le nombre de ligne
-            for (int i = 0; i < Stock.Count; i++) { // if prix minimum  entre prix max
-                if (Stock[i].Price >= (startPrice) && Stock[i].Price <= (endPrice)) {
-                    //affiche les articles dont le prix est entre startPrice et endPrice
-                    Console.WriteLine(Stock[i].ToString());
-
-                }
-            }
-            // SELECT * FROM Article where prix_article BETWEEN prix1 AND prix2
             Console.ReadLine();
         }
 
