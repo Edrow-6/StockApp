@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using ConsoleTables;
+using Figgle;
 
 namespace StockApp 
 {
@@ -36,7 +37,7 @@ namespace StockApp
         {
             Console.Title = "Par référence | Rechercher";
             Console.Clear();
-            Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Rechercher"));
+            Console.WriteLine(FiggleFonts.Slant.Render("  Rechercher"));
             Console.Write("Référence de l'article: ");
 
             int searchByNumber;
@@ -62,7 +63,7 @@ namespace StockApp
         {
             Console.Title = "Par Nom | Rechercher";
             Console.Clear();
-            Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Rechercher"));
+            Console.WriteLine(FiggleFonts.Slant.Render("  Rechercher"));
             Console.Write("Nom de l'article: ");
             
             string nameInput = Console.ReadLine();
@@ -83,7 +84,7 @@ namespace StockApp
         {
             Console.Title = "Par Prix | Rechercher";
             Console.Clear();
-            Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Rechercher"));
+            Console.WriteLine(FiggleFonts.Slant.Render("  Rechercher"));
 
             Console.Write("Montant minimum: ");
             float startPrice = float.Parse(Console.ReadLine());
@@ -92,8 +93,6 @@ namespace StockApp
             //boucle for sur le nombre de ligne
             for (int i = 0; i < Stock.Count; i++) { // if prix minimum  entre prix max
                 if (Stock[i].Price >= (startPrice) && Stock[i].Price <= (endPrice)) {
-                    // affiche les articles dont le prix est entre startPrice et endPrice
-                    //Console.WriteLine(Stock[i].ToString());
                     var table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
                     table.AddRow(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
                     table.Write(Format.Alternative);
@@ -106,7 +105,7 @@ namespace StockApp
         public static void AddArticle() 
         {
             Console.Clear();
-            Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Ajouter"));
+            Console.WriteLine(FiggleFonts.Slant.Render("  Ajouter"));
             Console.Write("Numéro: ");
             int number = int.Parse(Console.ReadLine());
             Console.Write("Nom: ");
@@ -136,7 +135,7 @@ namespace StockApp
         public static void DeleteArticle() 
         {
             Console.Clear();
-            Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Supprimer"));
+            Console.WriteLine(FiggleFonts.Slant.Render("  Supprimer"));
             Console.Write("Référence de l'article à supprimer: ");
             
             int articleToDeleteById = int.Parse(Console.ReadLine());
@@ -159,7 +158,7 @@ namespace StockApp
         public static void EditArticle() 
         {
             Console.Clear();
-            Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Modifier"));
+            Console.WriteLine(FiggleFonts.Slant.Render("  Modifier"));
             Console.Write("Numéro de l'article à modifier: ");
             int editArticleById = int.Parse(Console.ReadLine());
             for (int i = 0; i < Stock.Count; i++) {
@@ -193,23 +192,20 @@ namespace StockApp
         public static void ShowAll() 
         {
             Console.Clear();
+            Console.WriteLine(FiggleFonts.Slant.Render("  Articles"));
 
-            Console.WriteLine("Afficher tous les articles.");
-            // Affiche toutes les lignes de la liste
-            /*for (int i = 0; i < Stock.Count; i++) {
-                Console.WriteLine(Stock[i].ToString());
-            }*/
-            // SELECT * FROM Article
-
-            // Affiche tout les articles de la liste sous forme de tableau.
-            var table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
-            for (int i = 0; i < Stock.Count; i++) {
-                table.AddRow(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
-            }
-            table.Write(Format.Alternative);
-            
-            Console.WriteLine();
+            displayTable();
             Console.ReadLine();
+        }
+
+        public static void displayTable()
+        {
+            foreach (Article article in Stock)
+            {
+                var table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
+                table.AddRow(article.Number, article.Name, article.Price, article.Quantity);
+                table.Write(Format.Alternative);
+            }
         }
     }
 }
