@@ -1,61 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
 using Figgle;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using StockApp.Settings.Models;
 using System.IO;
+using StockApp.Settings;
+using System.Threading.Tasks;
 
 namespace StockApp
 {
-    class Program
+    public class Program
     {
-        public static List<Article> Stock = new List<Article>();
+        public AppSettings Settings { get; private set; }
+        public static List<string> FileNames { get; private set; }
+        static List<Article> Stock = new List<Article>();
 
-        // CLASSE DE TEST D'EXECUTION DE LA BDD
-        public static void SaveToDb()
+        public static Program MainApp = null;
+
+        // Générateur d'id auto (à finir)
+        private static int id = 1;
+        public static int GenerateId()
         {
-            using (var db = new Database())
-            {
-                try
-                {
-                    db.Connection.Open();
-                    using (var cmd = db.Connection.CreateCommand())
-                    {
-                        cmd.CommandText = @"CREATE TABLE TestTable";
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine(e);
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Une erreur est survenue, veuillez vérifier votre configuration.");
-                    Console.ResetColor();
-                }
-
-            }
+            return id++;
         }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            // TEST EXECUTION BDD
-            SaveToDb();
-            // TEST SETTINGS EN JSON
-            //var jsonString = JsonSerializer.Serialize(Stock);
-            //File.WriteAllText("test.json", jsonString);
+            MainApp = new Program();
+            MainApp.MainNoStatic();
+
+            // TESTING PURPOSE
+            Stock.Add(new Article(GenerateId(), "test", 10, 5000));
+            Stock.Add(new Article(GenerateId(), "test", 40, 1000));
+            Stock.Add(new Article(GenerateId(), "test2", 50, 2005));
+            Stock.Add(new Article(GenerateId(), "test3", 7, 5074));
+            Stock.Add(new Article(GenerateId(), "test4", 46, 4501));
 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-            // DESACTIVE DURANT TEST
-            /*ConsoleMenu.Show("main", true,
+            ConsoleMenu.Show("main", true,
                 "Rechercher un article",
                 "Ajouter un article au stock en vérifiant l’unicité de la référence",
                 "Supprimer un article par référence",
                 "Modifier un article par référence",
                 "Afficher tous les articles",
-                "Quitter la Console");*/
+                "Quitter la Console");
+        }
+
+        private void MainNoStatic()
+        {
+            CreateFiles();
+            ConfigFileManager.LoadConfigFiles(MainApp);
+            var test = Settings.Database ?? new Dictionary<string, string>();
+            test.Add("test", "tast");
+            Settings.SaveConfig();
+        }
+
+        private static void CreateFiles()
+        {
+            FileNames = new List<string>();
+            createFile("settings.json");
+
+            void createFile(string filename)
+            {
+                FileNames.Add(filename);
+                if (!File.Exists(Config.BasePath + filename))
+                    File.Create(Config.BasePath + filename).Close();
+            }
         }
 
         public static void SearchMenu()
@@ -91,10 +100,9 @@ namespace StockApp
             }
             else
             {
-                Console.WriteLine("[ERREUR] La valeur peut seulement être un chiffre, veuillez réessayer.");
+                ConsoleMenu.DisplayError("La valeur peut seulement être un chiffre, veuillez réessayer.");
             }
-
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         public static void SearchByName()
@@ -113,10 +121,10 @@ namespace StockApp
                 }
                 else
                 {
-                    Console.WriteLine("Erreur WIP.");
+                    ConsoleMenu.DisplayError("Erreur WIP.");
                 }
             }
-
+            Console.ReadKey();
         }
 
         public static void SearchByPriceInterval()
@@ -130,21 +138,21 @@ namespace StockApp
             Console.Write("Montant maximum: ");
             float endPrice = float.Parse(Console.ReadLine());
             //boucle for sur le nombre de ligne
-            for (int i = 0; i < Stock.Count; i++)
+            foreach (Article article in Stock)
             { // if prix minimum  entre prix max
-                if (Stock[i].Price >= (startPrice) && Stock[i].Price <= (endPrice))
+                if (article.Price >= (startPrice) && article.Price <= (endPrice))
                 {
-                    ConsoleMenu.DisplayTable(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
+                    ConsoleMenu.DisplayTable(article.Number, article.Name, article.Price, article.Quantity);
                 }
             }
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         public static void AddArticle()
         {
             Console.Clear();
             Console.WriteLine(FiggleFonts.Slant.Render("  Ajouter"));
-            Console.Write("Numéro: ");
+            Console.Write("Numéro [0 = auto]: ");
             int number = int.Parse(Console.ReadLine());
             Console.Write("Nom: ");
             string name = Console.ReadLine();
@@ -154,28 +162,40 @@ namespace StockApp
             int quantity = int.Parse(Console.ReadLine());
 
             bool numberExist = true;
-            for (int i = 0; i < Stock.Count; i++)
+            if (number == 0)
             {
-                if (Stock[i].Number.Equals(number))
+                number = GenerateId();
+                Stock.Add(new Article(number, name, price, quantity));
+
+            }
+            else
+            {
+                foreach (Article article in Stock)
                 {
-                    Console.WriteLine("[ERREUR] Ce numéro existe déjà, veuiller en saisir un nouveau.");
-                    numberExist = false;
+                    if (article.Number.Equals(number))
+                    {
+                        ConsoleMenu.DisplayError("Ce numéro existe déjà, veuiller en saisir un nouveau.");
+                        numberExist = false;
+                    }
+                }
+                if (numberExist == true)
+                {
+                    Stock.Add(new Article(number, name, price, quantity));
                 }
             }
-            if (numberExist == true)
+            ConsoleMenu.DisplayTable(number, name, price, quantity);
+            Console.ReadKey();
+
+            // TEST EXECUTION BDD
+            using (var db = new Database())
             {
-                Stock.Add(new Article(number, name, price, quantity));
-                var options = new JsonSerializerOptions
+                db.Connection.Open();
+                using (var cmd = db.Connection.CreateCommand())
                 {
-                    WriteIndented = true
-                };
-                // TEST SETTINGS EN JSON
-                var jsonString = JsonSerializer.Serialize(Stock, options);
-                File.WriteAllText("test.json", jsonString);
-                // END TEST
-                ConsoleMenu.DisplayTable(number, name, price, quantity);
+                    //cmd.CommandText = @"CREATE TABLE TestTable";
+                    //cmd.ExecuteNonQuery();
+                }
             }
-            Console.ReadLine();
         }
 
         public static void DeleteArticle()
@@ -194,9 +214,8 @@ namespace StockApp
 
                 }
             }
-
             Console.WriteLine("Vous avez supprimé l'article");
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         public static void EditArticle()
@@ -232,7 +251,7 @@ namespace StockApp
                     }
                 }
             }
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         public static void ShowAll()
@@ -240,16 +259,11 @@ namespace StockApp
             Console.Clear();
             Console.WriteLine(FiggleFonts.Slant.Render("  Articles"));
 
-            displayTable();
-            Console.ReadLine();
-        }
-
-        public static void displayTable()
-        {
             foreach (Article article in Stock)
             {
                 ConsoleMenu.DisplayTable(article.Number, article.Name, article.Price, article.Quantity);
             }
+            Console.ReadKey();
         }
     }
 }

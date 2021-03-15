@@ -36,8 +36,19 @@ namespace StockApp
                         if (i == currentSelection)
                         {
                             Console.SetCursorPosition(startX + (i % optionsPerLine) * spacingPerLine - 2, startY + i / optionsPerLine);
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                            Console.Write("➤ ");
+
+                            if (currentSelection != 5)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Cyan;
+                                Console.Write("➤ ");
+                                Console.ForegroundColor = ConsoleColor.Blue;
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.Write("➤ ");
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                            }
                         }
 
                         Console.Write(options[i]);
@@ -135,6 +146,13 @@ namespace StockApp
             return currentSelection;
         }
 
+        /* public static ConsoleTable Table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
+
+         public static void DisplayTable(int stockNumber, string stockName, float stockPrice, int stockQuantity)
+         {
+             Table.AddRow(stockNumber, stockName, stockPrice, stockQuantity);
+         }*/
+
         public static void DisplayTable(int stockNumber, string stockName, float stockPrice, int stockQuantity)
         {
             var table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
@@ -142,9 +160,13 @@ namespace StockApp
             table.Write(Format.Alternative);
         }
 
-        public static void DisplayError()
+        public static void DisplayError(string errorMessage, string errorException = "")
         {
-
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(errorException);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine(errorMessage);
+            Console.ResetColor();
         }
     }
 }
