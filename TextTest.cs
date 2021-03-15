@@ -1,5 +1,5 @@
 using System;
-
+// TODO MENU CONFIRMATION
 namespace StockApp
 {
     class TextTest
