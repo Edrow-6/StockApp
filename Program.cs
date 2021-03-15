@@ -4,7 +4,6 @@ using Figgle;
 using StockApp.Settings.Models;
 using System.IO;
 using StockApp.Settings;
-using System.Threading.Tasks;
 
 namespace StockApp
 {
@@ -49,8 +48,8 @@ namespace StockApp
         {
             CreateFiles();
             ConfigFileManager.LoadConfigFiles(MainApp);
-            var test = Settings.Database ?? new Dictionary<string, string>();
-            test.Add("test", "tast");
+            /*var test = Settings.Database ?? new Dictionary<string, string>();
+            test.Add("test", "tast");*/
             Settings.SaveConfig();
         }
 
