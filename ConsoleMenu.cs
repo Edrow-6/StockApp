@@ -37,16 +37,20 @@ namespace StockApp
                         {
                             Console.SetCursorPosition(startX + (i % optionsPerLine) * spacingPerLine - 2, startY + i / optionsPerLine);
 
-                            if (currentSelection != 5)
+                            if (menuName == "main" && currentSelection != 5 || menuName == "search" && currentSelection != 3)
                             {
                                 Console.ForegroundColor = ConsoleColor.Cyan;
-                                Console.Write("➤ ");
+                                Console.Write("⮞ ");
                                 Console.ForegroundColor = ConsoleColor.Blue;
+                            }else if (menuName == "search" && currentSelection == 3) {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.Write("⮜ ");
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                             }
-                            else
+                            else if (menuName == "main" && currentSelection == 5)
                             {
                                 Console.ForegroundColor = ConsoleColor.Red;
-                                Console.Write("➤ ");
+                                Console.Write("⮜ ");
                                 Console.ForegroundColor = ConsoleColor.DarkRed;
                             }
                         }
@@ -131,6 +135,11 @@ namespace StockApp
                         case 3:
                             {
                                 Program.SearchByPriceInterval();
+                                break;
+                            }
+                        case 4:
+                            {
+                                menuLoop = false;
                                 break;
                             }
                     }

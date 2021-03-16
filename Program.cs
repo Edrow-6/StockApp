@@ -74,7 +74,8 @@ namespace StockApp
                 true,
                 "Par référence",
                 "Par nom",
-                "Par intervalle de prix de vente");
+                "Par intervalle de prix de vente",
+                "Retour");
         }
 
         public static void SearchByReference()
@@ -180,21 +181,26 @@ namespace StockApp
                 if (numberExist == true)
                 {
                     Stock.Add(new Article(number, name, price, quantity));
+                    // TEST EXECUTION BDD
+                    try {
+                        using (var db = new Database())
+                        {
+                            db.Connection.Open();
+                            using (var cmd = db.Connection.CreateCommand())
+                            {
+                                cmd.CommandText = @"INSERT INTO article VALUES (number, name, price, quantity)";
+                                cmd.ExecuteNonQuery();
+                            }
+                        }   
+                    } 
+                    catch (Exception ex) 
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
             }
             ConsoleMenu.DisplayTable(number, name, price, quantity);
             Console.ReadKey();
-
-            // TEST EXECUTION BDD
-            using (var db = new Database())
-            {
-                db.Connection.Open();
-                using (var cmd = db.Connection.CreateCommand())
-                {
-                    //cmd.CommandText = @"CREATE TABLE TestTable";
-                    //cmd.ExecuteNonQuery();
-                }
-            }
         }
 
         public static void DeleteArticle()

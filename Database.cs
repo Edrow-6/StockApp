@@ -11,9 +11,9 @@ public class Database : IDisposable
 
     public Database()
     {
-
         /*var test = MainApp.Settings.Database ?? new Dictionary<string, string>();
         test.Add("test", "tast");*/
+        //MainApp.Settings.dbHost
         // 0 = HOST | 1 = PORT | 2 = USER_ID | 3 = PASSWORD | 4 = DATABASE
         string[] dbCredentials = { "127.0.0.1", "3306", "github", "dev", "csharp" };
         Connection = new MySqlConnection($"host={dbCredentials[0]};port={dbCredentials[1]};user id={dbCredentials[2]};password={dbCredentials[3]};database={dbCredentials[4]};");

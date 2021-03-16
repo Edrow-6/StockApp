@@ -1,5 +1,8 @@
 {
-  "Database": {
-    "test": "tast"
-  }
+  "Database": {},
+  "dbHost": null,
+  "dbPort": null,
+  "dbUser": null,
+  "dbPassword": null,
+  "dbName": null
 }
