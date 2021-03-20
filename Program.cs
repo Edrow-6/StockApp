@@ -182,7 +182,8 @@ namespace StockApp
                 {
                     Stock.Add(new Article(number, name, price, quantity));
                     // TEST EXECUTION BDD
-                    try {
+                    try
+                    {
                         using (var db = new Database())
                         {
                             db.Connection.Open();
@@ -191,9 +192,9 @@ namespace StockApp
                                 cmd.CommandText = @"INSERT INTO article VALUES (number, name, price, quantity)";
                                 cmd.ExecuteNonQuery();
                             }
-                        }   
-                    } 
-                    catch (Exception ex) 
+                        }
+                    }
+                    catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
@@ -214,12 +215,14 @@ namespace StockApp
             {
                 if (Stock[i].Number.Equals(articleToDeleteById))
                 {
-                    ConsoleMenu.DisplayTable(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
-                    Stock.RemoveAt(i);
-
+                    if (ConsoleMenu.PromptConfirmation("Êtes-vous sûr de vouloir supprimer cet article ?"))
+                    {
+                        ConsoleMenu.DisplayTable(Stock[i].Number, Stock[i].Name, Stock[i].Price, Stock[i].Quantity);
+                        Stock.RemoveAt(i);
+                        Console.WriteLine("Vous avez supprimé l'article");
+                    }
                 }
             }
-            Console.WriteLine("Vous avez supprimé l'article");
             Console.ReadKey();
         }
 
@@ -234,11 +237,9 @@ namespace StockApp
                 // si i est egale à editArticleById il affiche la ligne i
                 if (Stock[i].Number.Equals(editArticleById))
                 {
-                    Console.WriteLine("Voulez-vous modifier cet article : (o/n)");
-                    Console.WriteLine(Stock[i].ToString());
-                    string reponse = Console.ReadLine();
-                    if (reponse == "o")
+                    if (ConsoleMenu.PromptConfirmation("Êtes-vous sûr de vouloir modifier cet article ?"))
                     {
+                        Console.WriteLine(Stock[i].ToString());
                         Console.WriteLine("Entré le nouveau numéro de l'article");
                         int newNumber = int.Parse(Console.ReadLine());
                         Console.WriteLine("Entré le nouveau nom de l'article");
@@ -252,7 +253,6 @@ namespace StockApp
                         Stock[i].Name = newName;
                         Stock[i].Price = newPrice;
                         Stock[i].Quantity = newQuantity;
-                        // utilise le set
                     }
                 }
             }

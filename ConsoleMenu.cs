@@ -42,7 +42,9 @@ namespace StockApp
                                 Console.ForegroundColor = ConsoleColor.Cyan;
                                 Console.Write("⮞ ");
                                 Console.ForegroundColor = ConsoleColor.Blue;
-                            }else if (menuName == "search" && currentSelection == 3) {
+                            }
+                            else if (menuName == "search" && currentSelection == 3)
+                            {
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.Write("⮜ ");
                                 Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -176,6 +178,17 @@ namespace StockApp
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(errorMessage);
             Console.ResetColor();
+        }
+
+        public static bool PromptConfirmation(string confirmText)
+        {
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write(confirmText + " [y/n] : ");
+            ConsoleKey response = Console.ReadKey(false).Key;
+            Console.WriteLine();
+            Console.ResetColor();
+            return (response == ConsoleKey.Y);
         }
     }
 }
