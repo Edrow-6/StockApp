@@ -1,5 +1,5 @@
 using System;
-using ConsoleTables;
+using Figgle;
 
 namespace StockApp_Console
 {
@@ -26,12 +26,10 @@ namespace StockApp_Console
 
             while (!exitMenu)
             {
-
                 do
                 {
                     Console.Title = $"Stock App | Version {version}";
-                    Console.Clear();
-                    Console.WriteLine(Figgle.FiggleFonts.Slant.Render("  Stock App"));
+                    PageTitle("StockApp");
 
                     for (int i = 0; i < options.Length; i++)
                     {
@@ -46,7 +44,9 @@ namespace StockApp_Console
                                 Console.ForegroundColor = ConsoleColor.Cyan;
                                 Console.Write("⮞ ");
                                 Console.ForegroundColor = ConsoleColor.Blue;
-                            }else if (menuName == "search" && currentSelection == 3) {
+                            }
+                            else if (menuName == "search" && currentSelection == 3) 
+                            {
                                 Console.ForegroundColor = ConsoleColor.Red;
                                 Console.Write("⮜ ");
                                 Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -176,30 +176,77 @@ namespace StockApp_Console
 
         }*/
 
-        public static void DisplayError(string errorMessage, string errorException = "")
+        public static void DisplayMessage(string type, string message, string errorException = "")
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(errorException);
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine(errorMessage);
+            switch (type)
+            {
+                case "error":
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(errorException);
+
+                        Console.BackgroundColor = ConsoleColor.DarkRed;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write(" ERREUR ");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine(" " + message);
+                        Console.ResetColor();
+                        break;
+                    }
+                case "success":
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write(" SUCCÈS ");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.WriteLine(" " + message);
+                        Console.ResetColor();
+                        break;
+                    }
+            }
+        }
+
+        public static ReadOnlySpan<char> UserInput()
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            var input = Console.ReadLine();
             Console.ResetColor();
+            return input;
         }
 
         public static bool Confirm(string title)
         {
             ConsoleKey response;
-            Console.WriteLine();
             do
             {
-                Console.Write($"{title} [y/n] ");
+                Console.Write($"{title}");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write(" (O/N) ");
+                Console.ResetColor();
+                Console.Write("? ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 response = Console.ReadKey(false).Key;
-                if (response != ConsoleKey.Enter && response != ConsoleKey.Y)
+                if (response != ConsoleKey.Enter && response != ConsoleKey.O)
                 {
-                    DisplayError("Veuillez saisir une réponse valide.");
+                    DisplayMessage("error", "Veuillez saisir une réponse valide.");
                 }
-            } while (response != ConsoleKey.Y && response != ConsoleKey.N);
+            } 
+            while (response != ConsoleKey.O && response != ConsoleKey.N);
 
-            return (response == ConsoleKey.Y);
+            Console.WriteLine("\n");
+            Console.ResetColor();
+
+            return response == ConsoleKey.O;
+        }
+
+        public static void PageTitle(string title)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(FiggleFonts.Slant.Render("  " + title));
+            Console.ResetColor();
         }
     }
 }

@@ -7,6 +7,11 @@ namespace StockApp_Console // Répertoire de Travail
         private float _price;
         private int _quantity;
 
+        public static string displayNumber = "NUMÉRO"; // Typage string pour chaque catégorie (pour Table)
+        public static string displayName = "NOM";
+        public static string displayPrice = "PRIX";
+        public static string displayQuantity = "QUANTITÉ";
+
         public int Number // Convention de nomage | n minuscule pour attributs (var) | N majuscule pour méthode get/set
         {
             get { return _number; } // Retourne la valeur de l'objet (output)
