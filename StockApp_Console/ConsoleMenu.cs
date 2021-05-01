@@ -205,6 +205,28 @@ namespace StockApp_Console
                         Console.ResetColor();
                         break;
                     }
+                case "info":
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write(" INFO ");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        Console.WriteLine(" " + message);
+                        Console.ResetColor();
+                        break;
+                    }
+                case "warning":
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkYellow;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.Write(" AVERTISSEMENT ");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine(" " + message);
+                        Console.ResetColor();
+                        break;
+                    }
             }
         }
 
