@@ -237,8 +237,14 @@ namespace StockApp_Console
                 if (article.Number.Equals(articleToDeleteById))
                 {
                     if (ConsoleMenu.Confirm("Êtes-vous sûr de vouloir supprimer cet article"))
-                    Stock.Remove(article);
-                    ConsoleMenu.DisplayMessage("success", $"L'article numéro {article.Number} à été supprimé !");
+                    {
+                        Stock.Remove(article);
+                        ConsoleMenu.DisplayMessage("success", $"L'article numéro {article.Number} à été supprimé !");
+                    } 
+                    else
+                    {
+                        ConsoleMenu.DisplayMessage("info", "Opération annulée...");
+                    }
                 }
             }
             
