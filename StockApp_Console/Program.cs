@@ -4,6 +4,7 @@ using StockApp_Console.Settings.Models;
 using System.IO;
 using StockApp_Console.Settings;
 using ConsoleTables;
+using System.Threading.Tasks;
 
 namespace StockApp_Console
 {
@@ -96,14 +97,13 @@ namespace StockApp_Console
                     {
                         table.AddRow(article.Number, article.Name, article.Price, article.Quantity);
                         table.Write(Format.Alternative);
-                        ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...");
+                        ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...", false);
                     }
                 }                
             }
             else
             {
-                ConsoleMenu.DisplayMessage("error", "La valeur donnée n'est pas numérique !");
-                ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour reéssayer...");
+                ConsoleMenu.DisplayMessage("error", "La valeur donnée n'est pas numérique !", true);
                 Console.ReadKey();
                 SearchByReference();
             }
@@ -127,7 +127,7 @@ namespace StockApp_Console
                 }
                 else
                 {
-                    ConsoleMenu.DisplayMessage("error", "Erreur WIP.");
+                    ConsoleMenu.DisplayMessage("error", "Erreur WIP.", true);
                 }
             }
             Console.ReadKey();
@@ -152,7 +152,7 @@ namespace StockApp_Console
                 }
             }
             table.Write(Format.Alternative);
-            ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...");
+            ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...", false);
             Console.ReadKey();
         }
 
@@ -183,7 +183,7 @@ namespace StockApp_Console
                 {
                     if (article.Number.Equals(number))
                     {
-                        ConsoleMenu.DisplayMessage("error", "Un article contenant cette référence existe déjâ, veuillez recommencer votre saisie !");
+                        ConsoleMenu.DisplayMessage("error", "Un article contenant cette référence existe déjâ !", true);
                         numberExist = false;
                     }
                 }
@@ -239,11 +239,7 @@ namespace StockApp_Console
                     if (ConsoleMenu.Confirm("Êtes-vous sûr de vouloir supprimer cet article"))
                     {
                         Stock.Remove(article);
-                        ConsoleMenu.DisplayMessage("success", $"L'article numéro {article.Number} à été supprimé !");
-                    } 
-                    else
-                    {
-                        ConsoleMenu.DisplayMessage("info", "Opération annulée...");
+                        ConsoleMenu.DisplayMessage("success", $"L'article numéro {article.Number} à été supprimé !", true);
                     }
                 }
             }
@@ -305,12 +301,11 @@ namespace StockApp_Console
                             article.Price = newPrice;
                             article.Quantity = newQuantity;
 
-                            ConsoleMenu.DisplayMessage("success", "Article modifié avec succès !");
-                            ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...");
+                            ConsoleMenu.DisplayMessage("success", "Article modifié avec succès !", true);
                         }
                         else
                         {
-                            EditArticle();
+                            Task.Delay(1000).ContinueWith(t => EditArticle());
                         }
                     }
                 }
@@ -329,7 +324,7 @@ namespace StockApp_Console
                 table.AddRow(article.Number, article.Name, article.Price, article.Quantity);
             }
             table.Write(Format.Alternative);
-            ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...");
+            ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...", false);
 
             Console.ReadKey();
         }

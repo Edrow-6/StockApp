@@ -28,8 +28,8 @@ namespace StockApp_Console
             {
                 do
                 {
-                    Console.Title = $"Stock App | Version {version}";
-                    PageTitle("StockApp");
+                    Console.Title = $"GStock Console -  v{version}";
+                    PageTitle($"GStock v{version}");
 
                     for (int i = 0; i < options.Length; i++)
                     {
@@ -37,7 +37,7 @@ namespace StockApp_Console
 
                         if (i == currentSelection)
                         {
-                            Console.SetCursorPosition(startX + (i % optionsPerLine) * spacingPerLine - 2, startY + i / optionsPerLine);
+                            Console.SetCursorPosition(startX + (i % optionsPerLine) * spacingPerLine - 3, startY + i / optionsPerLine);
 
                             if (menuName == "main" && currentSelection != 6 || menuName == "search" && currentSelection != 3)
                             {
@@ -88,39 +88,39 @@ namespace StockApp_Console
 
                 if (menuName == "main")
                 {
-                    switch (currentSelection + 1)
+                    switch (currentSelection)
                     {
-                        case 1:
+                        case 0:
                             {
                                 Program.SearchMenu();
                                 break;
                             }
-                        case 2:
+                        case 1:
                             {
                                 Program.AddArticle();
                                 break;
                             }
-                        case 3:
+                        case 2:
                             {
                                 Program.DeleteArticle();
                                 break;
                             }
-                        case 4:
+                        case 3:
                             {
                                 Program.EditArticle();
                                 break;
                             }
-                        case 5:
+                        case 4:
                             {
                                 Program.ShowAll();
                                 break;
                             }
-                        case 6:
+                        case 5:
                             {
                                 Program.ShowSettings();
                                 break;
                             }
-                        case 7:
+                        case 6:
                             {
                                 if (Confirm("Êtes-vous sûr de vouloir quitter ?"))
                                 {
@@ -132,24 +132,24 @@ namespace StockApp_Console
                 }
                 else if (menuName == "search")
                 {
-                    switch (currentSelection + 1)
+                    switch (currentSelection)
                     {
-                        case 1:
+                        case 0:
                             {
                                 Program.SearchByReference();
                                 break;
                             }
-                        case 2:
+                        case 1:
                             {
                                 Program.SearchByName();
                                 break;
                             }
-                        case 3:
+                        case 2:
                             {
                                 Program.SearchByPriceInterval();
                                 break;
                             }
-                        case 4:
+                        case 3:
                             {
                                 exitMenu = true;
                                 break;
@@ -176,12 +176,13 @@ namespace StockApp_Console
 
         }*/
 
-        public static void DisplayMessage(string type, string message, string errorException = "")
+        public static void DisplayMessage(string type, string message, bool next, string errorException = "")
         {
             switch (type)
             {
                 case "error":
                     {
+                        Console.WriteLine();
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(errorException);
 
@@ -191,50 +192,79 @@ namespace StockApp_Console
                         Console.ResetColor();
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine(" " + message);
+                        if (next)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(" (appuyez sur une touche pour continuer...)");
+                        }
                         Console.ResetColor();
                         break;
                     }
                 case "success":
                     {
+                        Console.WriteLine();
                         Console.BackgroundColor = ConsoleColor.DarkGreen;
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write(" SUCCÈS ");
                         Console.ResetColor();
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
                         Console.WriteLine(" " + message);
+                        if (next)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(" (appuyez sur une touche pour continuer...)");
+                        }
                         Console.ResetColor();
                         break;
                     }
                 case "info":
                     {
+                        Console.WriteLine();
                         Console.BackgroundColor = ConsoleColor.DarkBlue;
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write(" INFO ");
                         Console.ResetColor();
                         Console.ForegroundColor = ConsoleColor.DarkBlue;
                         Console.WriteLine(" " + message);
+                        if (next)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(" (appuyez sur une touche pour continuer...)");
+                        }
                         Console.ResetColor();
                         break;
                     }
                 case "warning":
                     {
+                        Console.WriteLine();
                         Console.BackgroundColor = ConsoleColor.DarkYellow;
                         Console.ForegroundColor = ConsoleColor.Black;
-                        Console.Write(" AVERTISSEMENT ");
+                        Console.Write(" ALERTE ");
                         Console.ResetColor();
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine(" " + message);
+                        if (next)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(" (appuyez sur une touche pour continuer...)");
+                        }
                         Console.ResetColor();
                         break;
                     }
                 case "unknown":
                     {
+                        Console.WriteLine();
                         Console.BackgroundColor = ConsoleColor.DarkGray;
                         Console.ForegroundColor = ConsoleColor.Black;
                         Console.Write(" MESSAGE ");
                         Console.ResetColor();
                         Console.ForegroundColor = ConsoleColor.DarkGray;
                         Console.WriteLine(" " + message);
+                        if (next)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                            Console.WriteLine(" (appuyez sur une touche pour continuer...)");
+                        }
                         Console.ResetColor();
                         break;
                     }
@@ -261,9 +291,12 @@ namespace StockApp_Console
                 Console.Write("? ");
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 response = Console.ReadKey(false).Key;
-                if (response != ConsoleKey.Enter && response != ConsoleKey.O)
+                if (response != ConsoleKey.Enter && response != ConsoleKey.O && response != ConsoleKey.N)
                 {
-                    DisplayMessage("error", "Veuillez saisir une réponse valide.");
+                    DisplayMessage("error", "Veuillez saisir une réponse valide.", false);
+                } else if (response == ConsoleKey.N)
+                {
+                    DisplayMessage("info", "Opération annulée...", false);
                 }
             } 
             while (response != ConsoleKey.O && response != ConsoleKey.N);
