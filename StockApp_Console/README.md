@@ -9,7 +9,7 @@
   </a>
 </p>
 
-> Application CSharp permettant la manipulation de données (en liste > MySQL) via Console ou Interface
+> Application CSharp permettant la manipulation de données en Collection et (WIP: MySQL) via Console ou (WIP: Interface)
 
 ### 🏠 [Page d'accueil (Dawbee)](dawbee.fr)
 
@@ -25,7 +25,7 @@ Aucune si source sinon .exe
 dotnet run 
 ```
 
-## Utilisation en test
+## Utilisation en test (dev)
 
 ```sh
 dotnet watch run

@@ -5,6 +5,7 @@ using System.IO;
 using StockApp_Console.Settings;
 using ConsoleTables;
 using System.Threading.Tasks;
+using StockApp_Console.Utils;
 
 namespace StockApp_Console
 {
@@ -36,7 +37,7 @@ namespace StockApp_Console
             Stock.Add(new Article(GenerateId(), "test4", 46, 4501));
 
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            ConsoleMenu.Show("main",
+            Menu.Show("main",
                 "Rechercher un article",
                 "Ajouter un article au stock en vérifiant l’unicité de la référence",
                 "Supprimer un article par référence",
@@ -72,7 +73,7 @@ namespace StockApp_Console
         {
             Console.Title = "Rechercher | Stock App";
 
-            ConsoleMenu.Show("search",
+            Menu.Show("search",
                 "Par référence",
                 "Par nom",
                 "Par intervalle de prix de vente",
@@ -82,7 +83,7 @@ namespace StockApp_Console
         public static void SearchByReference()
         {
             Console.Title = "Par référence | Rechercher";
-            ConsoleMenu.PageTitle("Rechercher");
+            Menu.PageTitle("Rechercher");
             var table = new ConsoleTable(Article.displayNumber, Article.displayName, Article.displayPrice, Article.displayQuantity);
 
             Console.Write("Référence de l'article : ");
@@ -97,13 +98,13 @@ namespace StockApp_Console
                     {
                         table.AddRow(article.Number, article.Name, article.Price, article.Quantity);
                         table.Write(Format.Alternative);
-                        ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...", false);
+                        Menu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...", false);
                     }
                 }                
             }
             else
             {
-                ConsoleMenu.DisplayMessage("error", "La valeur donnée n'est pas numérique !", true);
+                Menu.DisplayMessage("error", "La valeur donnée n'est pas numérique !", true);
                 Console.ReadKey();
                 SearchByReference();
             }
@@ -113,7 +114,7 @@ namespace StockApp_Console
         public static void SearchByName()
         {
             Console.Title = "Par Nom | Rechercher";
-            ConsoleMenu.PageTitle("Rechercher");
+            Menu.PageTitle("Rechercher");
             var table = new ConsoleTable(Article.displayNumber, Article.displayName, Article.displayPrice, Article.displayQuantity);
 
             Console.Write("Nom de l'article : ");
@@ -127,7 +128,7 @@ namespace StockApp_Console
                 }
                 else
                 {
-                    ConsoleMenu.DisplayMessage("error", "Erreur WIP.", true);
+                    Menu.DisplayMessage("error", "Erreur WIP.", true);
                 }
             }
             Console.ReadKey();
@@ -136,13 +137,13 @@ namespace StockApp_Console
         public static void SearchByPriceInterval()
         {
             Console.Title = "Par Prix | Rechercher";
-            ConsoleMenu.PageTitle("Rechercher");
+            Menu.PageTitle("Rechercher");
             var table = new ConsoleTable(Article.displayNumber, Article.displayName, Article.displayPrice, Article.displayQuantity);
 
             Console.Write("Montant minimum : ");
-            float startPrice = float.Parse(ConsoleMenu.UserInput());
+            float startPrice = float.Parse(Menu.UserInput());
             Console.Write("Montant maximum : ");
-            float endPrice = float.Parse(ConsoleMenu.UserInput());
+            float endPrice = float.Parse(Menu.UserInput());
             //boucle for sur le nombre de ligne
             foreach (Article article in Stock)
             { // if prix minimum  entre prix max
@@ -152,13 +153,13 @@ namespace StockApp_Console
                 }
             }
             table.Write(Format.Alternative);
-            ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...", false);
+            Menu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...", false);
             Console.ReadKey();
         }
 
         public static void AddArticle()
         {
-            ConsoleMenu.PageTitle("Ajouter");
+            Menu.PageTitle("Ajouter");
             var table = new ConsoleTable(Article.displayNumber, Article.displayName, Article.displayPrice, Article.displayQuantity);
 
             Console.Write("Numéro [0 = auto]: ");
@@ -183,7 +184,7 @@ namespace StockApp_Console
                 {
                     if (article.Number.Equals(number))
                     {
-                        ConsoleMenu.DisplayMessage("error", "Un article contenant cette référence existe déjâ !", true);
+                        Menu.DisplayMessage("error", "Un article contenant cette référence existe déjâ !", true);
                         numberExist = false;
                     }
                 }
@@ -215,7 +216,7 @@ namespace StockApp_Console
 
         public static void DeleteArticle()
         {
-            ConsoleMenu.PageTitle("Supprimer");
+            Menu.PageTitle("Supprimer");
             var preview = new ConsoleTable(Article.displayNumber, Article.displayName, Article.displayPrice, Article.displayQuantity);
 
             foreach (Article article in Stock)
@@ -230,16 +231,16 @@ namespace StockApp_Console
             Console.ResetColor();
             Console.Write(": ");
 
-            int articleToDeleteById = int.Parse(ConsoleMenu.UserInput());
+            int articleToDeleteById = int.Parse(Menu.UserInput());
 
             foreach (Article article in Stock.ToArray())
             {
                 if (article.Number.Equals(articleToDeleteById))
                 {
-                    if (ConsoleMenu.Confirm("Êtes-vous sûr de vouloir supprimer cet article"))
+                    if (Menu.Confirm("Êtes-vous sûr de vouloir supprimer cet article"))
                     {
                         Stock.Remove(article);
-                        ConsoleMenu.DisplayMessage("success", $"L'article numéro {article.Number} à été supprimé !", true);
+                        Menu.DisplayMessage("success", $"L'article numéro {article.Number} à été supprimé !", true);
                     }
                 }
             }
@@ -249,7 +250,7 @@ namespace StockApp_Console
 
         public static void EditArticle()
         {
-            ConsoleMenu.PageTitle("Modifier");
+            Menu.PageTitle("Modifier");
             var preview = new ConsoleTable(Article.displayNumber, Article.displayName, Article.displayPrice, Article.displayQuantity);
             var choosen = new ConsoleTable(Article.displayNumber, Article.displayName, Article.displayPrice, Article.displayQuantity);
             var edited = new ConsoleTable(Article.displayNumber, Article.displayName, Article.displayPrice, Article.displayQuantity);
@@ -266,7 +267,7 @@ namespace StockApp_Console
             Console.ResetColor();
             Console.Write(": ");
 
-            int editArticleById = int.Parse(ConsoleMenu.UserInput());
+            int editArticleById = int.Parse(Menu.UserInput());
             Console.WriteLine();
 
             foreach (Article article in Stock)
@@ -277,7 +278,7 @@ namespace StockApp_Console
                     choosen.AddRow(article.Number, article.Name, article.Price, article.Quantity);
                     choosen.Write(Format.Alternative);
 
-                    if (ConsoleMenu.Confirm("Voulez-vous modifier cet article"))
+                    if (Menu.Confirm("Voulez-vous modifier cet article"))
                     {
                         Console.Write("Nouveau numéro : ");
                         int newNumber = int.Parse(Console.ReadLine());
@@ -294,14 +295,14 @@ namespace StockApp_Console
                         edited.AddRow(newNumber, newName, newPrice, newQuantity);
                         edited.Write(Format.Alternative);
 
-                        if (ConsoleMenu.Confirm("Êtes-vous sûr"))
+                        if (Menu.Confirm("Êtes-vous sûr"))
                         {
                             article.Number = newNumber;
                             article.Name = newName;
                             article.Price = newPrice;
                             article.Quantity = newQuantity;
 
-                            ConsoleMenu.DisplayMessage("success", "Article modifié avec succès !", true);
+                            Menu.DisplayMessage("success", "Article modifié avec succès !", true);
                         }
                         else
                         {
@@ -315,7 +316,7 @@ namespace StockApp_Console
 
         public static void ShowAll()
         {
-            ConsoleMenu.PageTitle("Articles");
+            Menu.PageTitle("Articles");
 
             var table = new ConsoleTable(Article.displayNumber, Article.displayName, Article.displayPrice, Article.displayQuantity);
 
@@ -324,7 +325,7 @@ namespace StockApp_Console
                 table.AddRow(article.Number, article.Name, article.Price, article.Quantity);
             }
             table.Write(Format.Alternative);
-            ConsoleMenu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...", false);
+            Menu.DisplayMessage("unknown", "Appuyez sur \"Entrer\" pour continuer...", false);
 
             Console.ReadKey();
         }

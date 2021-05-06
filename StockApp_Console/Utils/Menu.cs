@@ -1,15 +1,14 @@
 using System;
 using Figgle;
 
-namespace StockApp_Console
+namespace StockApp_Console.Utils
 {
-    class ConsoleMenu
+    class Menu
     {
         public static int Show(string menuName, params string[] options)
         {
             // Variables paramètrables
             const string version = "1.0";
-            
             const int startX = 5;
             const int startY = 7;
             const int optionsPerLine = 1;
@@ -17,13 +16,13 @@ namespace StockApp_Console
 
             int currentSelection = 0;
 
-            // Stockage de la clé
             ConsoleKey key;
             Console.CursorVisible = false;
             Console.Clear();
 
             var exitMenu = false;
 
+            // FONCTIONNEMENT UNIVERSEL POUR AVOIR AUTANT DE MENU QUE L'ON VEUT
             while (!exitMenu)
             {
                 do
@@ -66,6 +65,7 @@ namespace StockApp_Console
 
                     key = Console.ReadKey(true).Key;
 
+                    // SELECTION DE LIGNES/MOTS POUR ATTRIBUTION COULEUR ET DE "currentSelection" EN RAPPORT DU NOMBRES D'OPTIONS PAR LIGNES
                     switch (key)
                     {
                         case ConsoleKey.UpArrow:
@@ -86,7 +86,8 @@ namespace StockApp_Console
                     }
                 } while (key != ConsoleKey.Enter);
 
-                if (menuName == "main")
+                // DÉFINITION DES FONCTIONS PAR MENUS
+                if (menuName == "main") // MENU PRINCIPAL
                 {
                     switch (currentSelection)
                     {
@@ -130,7 +131,7 @@ namespace StockApp_Console
                             }
                     }
                 }
-                else if (menuName == "search")
+                else if (menuName == "search") // SOUS MENU DE RECHERCHER
                 {
                     switch (currentSelection)
                     {
@@ -162,20 +163,7 @@ namespace StockApp_Console
             return currentSelection;
         }
 
-        //REWRITE NEEDED public static ConsoleTable table = new ConsoleTable("NUMÉRO", "NOM", "PRIX", "QUANTITÉ");
-
-         /*public static void DisplayTable(int stockNumber, string stockName, float stockPrice, int stockQuantity)
-         {
-             Table.AddRow(stockNumber, stockName, stockPrice, stockQuantity);
-         }
-
-        public static void DisplayTable(int stockNumber, string stockName, float stockPrice, int stockQuantity)
-        {
-            table.AddRow(stockNumber, stockName, stockPrice, stockQuantity);
-            table.Write(Format.Alternative);
-
-        }*/
-
+        // FORMATAGE DES MESSAGES DE TOUT TYPES
         public static void DisplayMessage(string type, string message, bool next, string errorException = "")
         {
             switch (type)
@@ -271,6 +259,7 @@ namespace StockApp_Console
             }
         }
 
+        // FORMATAGE DES ENTRÉES DE L'UTILISATEUR (ex. Couleur)
         public static ReadOnlySpan<char> UserInput()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -279,6 +268,7 @@ namespace StockApp_Console
             return input;
         }
 
+        // BOOLEAN DE CONFIRMATION D'ACTION
         public static bool Confirm(string title)
         {
             ConsoleKey response;
@@ -307,6 +297,7 @@ namespace StockApp_Console
             return response == ConsoleKey.O;
         }
 
+        // TITRE DE "PAGE" EN POLICE ASCII
         public static void PageTitle(string title)
         {
             Console.Clear();
