@@ -30,6 +30,7 @@ namespace StockApp_WinForms
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.searchButton = new System.Windows.Forms.Button();
             this.indicator = new System.Windows.Forms.PictureBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.deleteButton = new System.Windows.Forms.Button();
@@ -44,6 +45,7 @@ namespace StockApp_WinForms
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indicator)).BeginInit();
             this.panel2.SuspendLayout();
@@ -54,6 +56,7 @@ namespace StockApp_WinForms
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Gray;
+            this.panel1.Controls.Add(this.searchButton);
             this.panel1.Controls.Add(this.indicator);
             this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this.deleteButton);
@@ -68,12 +71,30 @@ namespace StockApp_WinForms
             this.panel1.Size = new System.Drawing.Size(300, 1054);
             this.panel1.TabIndex = 0;
             // 
+            // searchButton
+            // 
+            this.searchButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.searchButton.BackColor = System.Drawing.Color.DarkGray;
+            this.searchButton.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.searchButton.FlatAppearance.BorderSize = 5;
+            this.searchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.searchButton.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.searchButton.ForeColor = System.Drawing.Color.White;
+            this.searchButton.Location = new System.Drawing.Point(23, 229);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(272, 68);
+            this.searchButton.TabIndex = 8;
+            this.searchButton.Text = "Rechercher";
+            this.searchButton.UseVisualStyleBackColor = false;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
+            // 
             // indicator
             // 
             this.indicator.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.indicator.Location = new System.Drawing.Point(5, 155);
+            this.indicator.Location = new System.Drawing.Point(0, 155);
             this.indicator.Name = "indicator";
-            this.indicator.Size = new System.Drawing.Size(12, 68);
+            this.indicator.Size = new System.Drawing.Size(17, 68);
             this.indicator.TabIndex = 7;
             this.indicator.TabStop = false;
             // 
@@ -101,7 +122,7 @@ namespace StockApp_WinForms
             this.deleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.deleteButton.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.deleteButton.ForeColor = System.Drawing.Color.White;
-            this.deleteButton.Location = new System.Drawing.Point(23, 451);
+            this.deleteButton.Location = new System.Drawing.Point(23, 525);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(272, 68);
             this.deleteButton.TabIndex = 5;
@@ -119,7 +140,7 @@ namespace StockApp_WinForms
             this.editButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.editButton.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.editButton.ForeColor = System.Drawing.Color.White;
-            this.editButton.Location = new System.Drawing.Point(23, 377);
+            this.editButton.Location = new System.Drawing.Point(23, 451);
             this.editButton.Name = "editButton";
             this.editButton.Size = new System.Drawing.Size(272, 68);
             this.editButton.TabIndex = 4;
@@ -137,7 +158,7 @@ namespace StockApp_WinForms
             this.addButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addButton.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addButton.ForeColor = System.Drawing.Color.White;
-            this.addButton.Location = new System.Drawing.Point(23, 303);
+            this.addButton.Location = new System.Drawing.Point(23, 377);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(272, 68);
             this.addButton.TabIndex = 3;
@@ -155,7 +176,7 @@ namespace StockApp_WinForms
             this.showButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.showButton.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.showButton.ForeColor = System.Drawing.Color.White;
-            this.showButton.Location = new System.Drawing.Point(23, 229);
+            this.showButton.Location = new System.Drawing.Point(23, 303);
             this.showButton.Name = "showButton";
             this.showButton.Size = new System.Drawing.Size(272, 68);
             this.showButton.TabIndex = 2;
@@ -177,7 +198,7 @@ namespace StockApp_WinForms
             this.homeButton.Name = "homeButton";
             this.homeButton.Size = new System.Drawing.Size(272, 68);
             this.homeButton.TabIndex = 1;
-            this.homeButton.Text = "Accueil";
+            this.homeButton.Text = "Tableau de bord";
             this.homeButton.UseVisualStyleBackColor = false;
             this.homeButton.Click += new System.EventHandler(this.homeButton_Click);
             // 
@@ -225,15 +246,16 @@ namespace StockApp_WinForms
             this.pageName.ForeColor = System.Drawing.Color.Gainsboro;
             this.pageName.Location = new System.Drawing.Point(37, 24);
             this.pageName.Name = "pageName";
-            this.pageName.Size = new System.Drawing.Size(127, 45);
+            this.pageName.Size = new System.Drawing.Size(263, 45);
             this.pageName.TabIndex = 0;
-            this.pageName.Text = "Accueil";
+            this.pageName.Text = "Tableau de bord";
             this.pageName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.tabControl1.Location = new System.Drawing.Point(300, 98);
@@ -252,7 +274,7 @@ namespace StockApp_WinForms
             this.tabPage1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tabPage1.Size = new System.Drawing.Size(1393, 918);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Tableau de bord";
             // 
             // tabPage2
             // 
@@ -262,7 +284,17 @@ namespace StockApp_WinForms
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(1393, 918);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Afficher";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 34);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1393, 918);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -305,6 +337,8 @@ namespace StockApp_WinForms
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button searchButton;
+        private System.Windows.Forms.TabPage tabPage3;
     }
 }
 
