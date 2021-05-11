@@ -42,15 +42,19 @@ namespace StockApp_WinForms
             this.gstock_label = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.pageName = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.pagesControl = new System.Windows.Forms.TabControl();
+            this.dashboard = new System.Windows.Forms.TabPage();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.search = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indicator)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.pagesControl.SuspendLayout();
+            this.dashboard.SuspendLayout();
+            this.search.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -251,40 +255,56 @@ namespace StockApp_WinForms
             this.pageName.Text = "Tableau de bord";
             this.pageName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tabControl1
+            // pagesControl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.tabControl1.Location = new System.Drawing.Point(300, 98);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1401, 956);
-            this.tabControl1.TabIndex = 2;
-            this.tabControl1.Visible = false;
+            this.pagesControl.Controls.Add(this.dashboard);
+            this.pagesControl.Controls.Add(this.search);
+            this.pagesControl.Controls.Add(this.tabPage3);
+            this.pagesControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pagesControl.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.pagesControl.Location = new System.Drawing.Point(300, 98);
+            this.pagesControl.Name = "pagesControl";
+            this.pagesControl.SelectedIndex = 0;
+            this.pagesControl.Size = new System.Drawing.Size(1401, 956);
+            this.pagesControl.TabIndex = 2;
             // 
-            // tabPage1
+            // dashboard
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.DimGray;
-            this.tabPage1.Location = new System.Drawing.Point(4, 34);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.tabPage1.Size = new System.Drawing.Size(1393, 918);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Tableau de bord";
+            this.dashboard.BackColor = System.Drawing.Color.DimGray;
+            this.dashboard.Controls.Add(this.panel4);
+            this.dashboard.Location = new System.Drawing.Point(4, 34);
+            this.dashboard.Name = "dashboard";
+            this.dashboard.Padding = new System.Windows.Forms.Padding(3);
+            this.dashboard.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dashboard.Size = new System.Drawing.Size(1393, 918);
+            this.dashboard.TabIndex = 0;
+            this.dashboard.Text = "Tableau de bord";
             // 
-            // tabPage2
+            // panel4
             // 
-            this.tabPage2.BackColor = System.Drawing.Color.DimGray;
-            this.tabPage2.Location = new System.Drawing.Point(4, 34);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1393, 918);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Afficher";
+            this.panel4.BackColor = System.Drawing.Color.DarkRed;
+            this.panel4.Location = new System.Drawing.Point(144, 129);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(300, 150);
+            this.panel4.TabIndex = 0;
+            // 
+            // search
+            // 
+            this.search.BackColor = System.Drawing.Color.DimGray;
+            this.search.Controls.Add(this.textBox1);
+            this.search.Location = new System.Drawing.Point(4, 34);
+            this.search.Name = "search";
+            this.search.Padding = new System.Windows.Forms.Padding(3);
+            this.search.Size = new System.Drawing.Size(1393, 918);
+            this.search.TabIndex = 1;
+            this.search.Text = "Rechercher";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(90, 97);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(150, 31);
+            this.textBox1.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -302,7 +322,7 @@ namespace StockApp_WinForms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1701, 1054);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.pagesControl);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -315,7 +335,10 @@ namespace StockApp_WinForms
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
+            this.pagesControl.ResumeLayout(false);
+            this.dashboard.ResumeLayout(false);
+            this.search.ResumeLayout(false);
+            this.search.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -334,11 +357,13 @@ namespace StockApp_WinForms
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label pageName;
         private System.Windows.Forms.PictureBox indicator;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl pagesControl;
+        private System.Windows.Forms.TabPage dashboard;
+        private System.Windows.Forms.TabPage search;
         private System.Windows.Forms.Button searchButton;
         private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

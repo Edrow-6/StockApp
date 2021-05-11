@@ -28,16 +28,18 @@ namespace StockApp_WinForms
             pageName.Text = control.Text;
         }
 
-        private void searchButton_Click(object sender, EventArgs e)
-        {
-            MoveIndicator((Control)sender);
-            HeaderTitle((Control)sender);
-        }
-
         private void homeButton_Click(object sender, EventArgs e)
         {
             MoveIndicator((Control) sender);
             HeaderTitle((Control) sender);
+            pagesControl.SelectTab(dashboard);
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            MoveIndicator((Control)sender);
+            HeaderTitle((Control)sender);
+            pagesControl.SelectTab(search);
         }
 
         private void showButton_Click(object sender, EventArgs e)
