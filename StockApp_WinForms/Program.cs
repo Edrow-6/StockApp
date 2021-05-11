@@ -8,14 +8,6 @@ namespace StockApp_WinForms
 {
     static class Program
     {
-        public Main Main1
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>

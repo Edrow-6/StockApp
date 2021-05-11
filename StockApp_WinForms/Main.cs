@@ -17,9 +17,45 @@ namespace StockApp_WinForms
             InitializeComponent();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        void MoveIndicator(Control control)
         {
+            indicator.Top = control.Top;
+            indicator.Height = control.Height;
+        }
 
+        void HeaderTitle(Control control)
+        {
+            pageName.Text = control.Text;
+        }
+
+        private void homeButton_Click(object sender, EventArgs e)
+        {
+            MoveIndicator((Control) sender);
+            HeaderTitle((Control) sender);
+        }
+
+        private void showButton_Click(object sender, EventArgs e)
+        {
+            MoveIndicator((Control) sender);
+            HeaderTitle((Control) sender);
+        }
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            MoveIndicator((Control) sender);
+            HeaderTitle((Control) sender);
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            MoveIndicator((Control) sender);
+            HeaderTitle((Control) sender);
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            MoveIndicator((Control) sender);
+            HeaderTitle((Control) sender);
         }
     }
 }

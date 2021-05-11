@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Edrow\\Documents\\GitHub\\StockApp\\StockApp_WinForms\\StockApp_WinForms.csproj",
+      "projectUniqueName": "C:\\Users\\cedri\\Documents\\GitHub\\StockApp\\StockApp_WinForms\\StockApp_WinForms.csproj",
       "projectName": "StockApp_WinForms",
-      "projectPath": "D:\\Edrow\\Documents\\GitHub\\StockApp\\StockApp_WinForms\\StockApp_WinForms.csproj",
+      "projectPath": "C:\\Users\\cedri\\Documents\\GitHub\\StockApp\\StockApp_WinForms\\StockApp_WinForms.csproj",
       "packagesPath": "C:\\Users\\cedri\\.nuget\\packages\\",
-      "outputPath": "D:\\Edrow\\Documents\\GitHub\\StockApp\\StockApp_WinForms\\obj\\",
+      "outputPath": "C:\\Users\\cedri\\Documents\\GitHub\\StockApp\\StockApp_WinForms\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\cedri\\AppData\\Roaming\\NuGet\\NuGet.Config",
